@@ -3,5 +3,6 @@ from django.conf.urls import patterns, url
 from timeline import views
 
 urlpatterns = patterns('',
-                       url(r'^tweets/$', views.tweets, name='tweets'),  # 一覧
+                       # url(r'^login$', views.login, name='login'),  # ログイン
+                       # url(r'^$', views.tweets, name='tweets'),  # 一覧
                        )

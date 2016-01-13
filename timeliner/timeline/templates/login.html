@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<form action="/login/register" method="POST">
+    {% csrf_token %}
+    <table border="1px">
+        <tr>
+            <td>ユーザID</td>
+            <td><input type="text" name="username"></td>
+        </tr>
+        <tr>
+            <td>パスワード</td>
+            <td><input type="password" name="password"></td>
+        </tr>
+        <tr>
+            <td><input type="submit" value="sign up"></td>
+        </tr>
+    </table>
+</form>
+</body>
+</html>
