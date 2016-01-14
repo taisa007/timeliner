@@ -10,8 +10,8 @@ urlpatterns = patterns('',
                        # url(r'^$', include('timeline.urls', namespace='timeline')),
 
                        url(r'^admin/', include(admin.site.urls)),
-
-                       url(r'^login$', views.login),
-                       url(r'^login/register$', views.register),
-                       url(r'^$', views.index)
+                       # url(r'^login$', views.login),
+                       # url(r'^login/register$', views.register),
+                       # url(r'^$', views.index),
+                       url(r'', include('timeline.urls', namespace='timeline'))
                        )

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<div>
+    <p><a href="/signup">新規登録</a></p>
+    <p><a href="/login">ログイン</a></p>
+</div>
+
+<table border="1px">
+    <tr>
+        <th>ユーザID</th>
+        <th>ツイート</th>
+    </tr>
+
+    <form action="/tweet" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="user_id" value="1">
+        <p><input type="textarea" name="content"></p>
+        <p><input type="submit" value="ツイート"></p>
+    </form>
+
+    {%  for tweet in tweets %}
+        <tr>
+            <td>{{ tweet.user_id }}</td>
+            <td>{{ tweet.content }}</td>
+        </tr>
+    {% endfor %}
+</table>
+</body>
+</html>

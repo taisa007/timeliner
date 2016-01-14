@@ -8,11 +8,11 @@
 
 <div>
     <p><a href="/">トップ</a></p>
-    <p><a href="/signup">新規登録</a></p>
+    <p><a href="/login">ログイン</a></p>
 </div>
 
-<p>ログイン</p>
-<form action="/login/register" method="POST">
+<p>新規登録</p>
+<form action="/signup/register" method="POST">
     {% csrf_token %}
     <table border="1px">
         <tr>
