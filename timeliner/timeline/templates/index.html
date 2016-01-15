@@ -13,7 +13,7 @@
 
 <table border="1px">
     <tr>
-        <th>ユーザID</th>
+        <th>ユーザ名</th>
         <th>ツイート</th>
     </tr>
 
@@ -26,7 +26,7 @@
 
     {%  for tweet in tweets %}
         <tr>
-            <td>{{ tweet.user_id }}</td>
+            <td>{{ tweet.user.username }}</td>
             <td>{{ tweet.content }}</td>
         </tr>
     {% endfor %}
