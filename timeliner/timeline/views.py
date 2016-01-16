@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render, render_to_response, redirect
+from django.shortcuts import render, render_to_response, redirect, get_object_or_404
 
 # Create your views here.
 from django.template.context import RequestContext
+from pip._vendor.requests.models import json_dumps
 from timeline.forms import LoginForm, TweetForm
 from timeline.models import Tweet, User
 
@@ -25,10 +26,10 @@ def login(request):
 def login_register(request):
 
     # DBチェック
+    user = User.objects.get(username=request.POST["username"], password=request.POST["password"])
 
     # レコードがあったらセッションにユーザ情報書き込む
-    request.session['login_session'] = 'user'
-
+    request.session['login_session'] = user.id
     return redirect('/')
 
 
