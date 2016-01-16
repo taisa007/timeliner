@@ -3,7 +3,6 @@ from django.shortcuts import render, render_to_response, redirect, get_object_or
 
 # Create your views here.
 from django.template.context import RequestContext
-from pip._vendor.requests.models import json_dumps
 from timeline.forms import LoginForm, TweetForm
 from timeline.models import Tweet, User
 
@@ -16,36 +15,33 @@ def index(request):
                               context_instance=RequestContext(request))
 
 
-# ログイン画面
-def login(request):
-    return render_to_response('login.html',
-                              context_instance=RequestContext(request))
-
-
 # ログイン
-def login_register(request):
-
-    # DBチェック
-    user = User.objects.get(username=request.POST["username"], password=request.POST["password"])
-
-    # レコードがあったらセッションにユーザ情報書き込む
-    request.session['login_session'] = user.id
-    return redirect('/')
+def login(request):
+    data = None
+    if request.method == "POST":
+        # DBチェック
+        #user = User.objects.get(username=request.POST["username"], password=request.POST["password"])
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            message = 'ログイン成功'
+            # レコードがあったらセッションにユーザ情報書き込む
+            request.session['login_session'] = '1'
+            return redirect('/')
+        data = {'form': form}
+    return render(request, 'login.html', data)
 
 
 # 登録画面
 def signup(request):
+    if request.method == "POST":
+        user = User()
+        form = LoginForm(request.POST, instance=user)
+        user = form.save(commit=False)
+        user.save()
+        return redirect('/')
     return render_to_response('signup.html',
                               context_instance=RequestContext(request))
 
-
-# 登録処理
-def signup_register(request):
-    user = User()
-    form = LoginForm(request.POST, instance=user)
-    user = form.save(commit=False)
-    user.save()
-    return redirect('/')
 
 
 def tweet(request):
@@ -55,5 +51,4 @@ def tweet(request):
         tweet = form.save(commit=False)
         tweet.user_id = 1
         tweet.save()
-
     return redirect('/')

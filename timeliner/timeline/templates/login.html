@@ -12,19 +12,21 @@
 </div>
 
 <p>ログイン</p>
-<form action="/login/register" method="POST">
+<form action="/login" method="POST">
     {% csrf_token %}
     <table border="1px">
         <tr>
             <td>ユーザID</td>
+            {{ form.errors.username }}
             <td><input type="text" name="username"></td>
         </tr>
         <tr>
             <td>パスワード</td>
+            {{ form.errors.password }}
             <td><input type="password" name="password"></td>
         </tr>
         <tr>
-            <td><input type="submit" value="sign up"></td>
+            <td><input type="submit" value="login"></td>
         </tr>
     </table>
 </form>
