@@ -23,6 +23,12 @@ def login(request):
 
 # ログイン
 def login_register(request):
+
+    # DBチェック
+
+    # レコードがあったらセッションにユーザ情報書き込む
+    request.session['login_session'] = 'user'
+
     return redirect('/')
 
 
