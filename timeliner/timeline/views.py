@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, render_to_response, redirect, get_object_or_404
 
 # Create your views here.
@@ -19,15 +20,22 @@ def index(request):
 def login(request):
     data = None
     if request.method == "POST":
-        # DBチェック
-        #user = User.objects.get(username=request.POST["username"], password=request.POST["password"])
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            message = 'ログイン成功'
-            # レコードがあったらセッションにユーザ情報書き込む
-            request.session['login_session'] = '1'
-            return redirect('/')
-        data = {'form': form}
+        try:
+            # DBチェック
+            user = User.objects.get(username=request.POST["username"], password=request.POST["password"])
+
+            form = LoginForm(request.POST)
+            if form.is_valid():
+                message = 'ログイン成功'
+                # レコードがあったらセッションにユーザ情報書き込む
+                request.session['login_session'] = user.id
+                return redirect('/')
+
+            data = {'form': form}
+        except ObjectDoesNotExist:
+            # return redirect('/')
+            return render(request, 'login.html')
+
     return render(request, 'login.html', data)
 
 
