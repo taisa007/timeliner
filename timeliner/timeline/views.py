@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
+from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
+from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, render_to_response, redirect, get_object_or_404
 
 # Create your views here.
@@ -26,15 +28,14 @@ def login(request):
 
             form = LoginForm(request.POST)
             if form.is_valid():
-                message = 'ログイン成功'
                 # レコードがあったらセッションにユーザ情報書き込む
                 request.session['login_session'] = user.id
                 return redirect('/')
 
             data = {'form': form}
         except ObjectDoesNotExist:
-            # return redirect('/')
-            return render(request, 'login.html')
+            messages.add_message(request, messages.ERROR, 'ユーザ名かパスワードが間違っています。')
+            return HttpResponseRedirect('/login')
 
     return render(request, 'login.html', data)
 
@@ -49,7 +50,6 @@ def signup(request):
         return redirect('/')
     return render_to_response('signup.html',
                               context_instance=RequestContext(request))
-
 
 
 def tweet(request):
