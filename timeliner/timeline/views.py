@@ -23,15 +23,14 @@ def login(request):
     data = None
     if request.method == "POST":
         try:
-            # DBチェック
-            user = User.objects.get(username=request.POST["username"], password=request.POST["password"])
-
             form = LoginForm(request.POST)
             if form.is_valid():
+                # DBチェック
+                user = User.objects.get(username=request.POST["username"], password=request.POST["password"])
+
                 # レコードがあったらセッションにユーザ情報書き込む
                 request.session['login_session'] = user.id
                 return redirect('/')
-
             data = {'form': form}
         except ObjectDoesNotExist:
             messages.add_message(request, messages.ERROR, 'ユーザ名かパスワードが間違っています。')
@@ -52,11 +51,21 @@ def signup(request):
                               context_instance=RequestContext(request))
 
 
+def logout(request):
+    request.session['login_session'] = None
+    return redirect('/')
+
+
 def tweet(request):
     tweet = Tweet()
     form = TweetForm(request.POST, instance=tweet)
+
+    if request.session.get('login_session') is None:
+        messages.add_message(request, messages.ERROR, 'ログインしてないよ')
+        return HttpResponseRedirect('/')
+
     if form.is_valid():
         tweet = form.save(commit=False)
-        tweet.user_id = 1
+        tweet.user_id = request.session.get('login_session')
         tweet.save()
     return redirect('/')

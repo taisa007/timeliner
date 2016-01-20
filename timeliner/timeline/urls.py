@@ -7,4 +7,5 @@ urlpatterns = patterns('',
                        url(r'^login$', views.login, name="login"),  # ログイン
                        url(r'^signup$', views.signup, name="signup"),  # 登録画面
                        url(r'^tweet$', views.tweet, name="tweet"),  # ツイート
+                       url(r'^logout', views.logout, name='logout')  # ログアウト
                        )

@@ -9,14 +9,14 @@ class LoginForm(forms.Form):
         label='ユーザ名',
         max_length=60,
         required=True,
-        widget=forms.TextInput
+        widget=forms.TextInput,
     )
 
     password = forms.CharField(
         label='パスワード',
         max_length=60,
         required=True,
-        widget=forms.TextInput
+        widget=forms.TextInput,
     )
 
 
